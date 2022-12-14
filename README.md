@@ -4,6 +4,7 @@
 * [Reference Circuit Diagram](#Reference-Circuit-Diagram)
 * [Reference Waveform](#Reference-Waveform)
 * [Circuit Details](#Circuit-Details)
+* [State Transition Diagram](#State-Transition-Diagram)
 * [Truth Table](#Truth-Table)
 * [Designing Steps](#Designing-Steps)
 * [Software Used](#Software-Used)
