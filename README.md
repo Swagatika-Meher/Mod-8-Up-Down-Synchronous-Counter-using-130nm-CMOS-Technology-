@@ -1,5 +1,5 @@
 # Mod-8 Up/Down Synchronous Counter using 130nm CMOS Technology
-
+# Table of contents
 * [Abstract](#Abstract)
 * [Reference Circuit Diagram](#Reference-Circuit-Diagram)
 * [Reference Waveform](#Reference-Waveform)
@@ -31,6 +31,10 @@ Given attached is the block diagram for Mod-8 Up/Down Synchronous Counter.
 ![ref_ckt_d](https://user-images.githubusercontent.com/114692581/207661098-4b1f53f0-d88f-43fd-9d25-5462446bef35.png)
                                                        
 Fig:1 Mod-8 Up/Down Synchronous Counter
+# Reference Waveform
+Given attached is the timing diagram for Mod-8 Up/Down Synchronous Counter.
+
+
 # Circuit Details
 In TIQ technique, it uses two cascaded CMOS inverters as a comparator. While the second inverter serves as a gain booster, the first inverter internally creates reference voltage (Vref). As we adjust the size of CMOS, the cascading inverters produce various switching/reference voltages internally which serves as reference voltages. The purpose of TIQ comparator is to transform an input voltage (Vin) toward logic '1' or '0' by estimating a reference voltage (Vref) with the Vin. If Vin is greater than Vref, the comparator output is '1', otherwise '0'. This occurs when transistor width is altered while keeping the transistor length constant. The gain boosters create sharper thresholds for comparator outputs and offer a complete digital output voltage swing. The comparator outputs the thermometer code are turned to a binary code using 8:3 priority encoder. In this design, sine wave is given as input voltage with 20MHz frequency.
 # TIQ Comparator
