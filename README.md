@@ -10,11 +10,11 @@
   * [NgSpice](#NgSpice)
   * [Makerchip](#Makerchip)
   * [Verilator](#Verilator)
-* [Circuit Diagram in eSim](#Circuit-Diagram-in-eSim)
 * [Verilog Code](#Verilog-Code)
 * [Makerchip](#Makerchip)
 * [Makerchip Plots](#Makerchip-Plots)
 * [Generating Model for T Flipflop using NgVeri](#Generating-Model-for-T-Flipflop-using-NgVeri)
+* [Circuit Diagram in eSim](#Circuit-Diagram-in-eSim)
 * [Netlists](#Netlists)
 * [NgSpice Plots](#NgSpice-Plots)
 * [Steps to run and generate NgVeri Model](#Steps-to-run-and-generate-NgVeri-Model)
@@ -79,32 +79,30 @@ It is a tool which converts Verilog code to C++ objects. For more details refer:
 
 ```
 ////////////////////////////////////////////////////////////////////////
-// Mixed Signal Design Hackathon
 //
-// (Organised by FOSSEE IIT Bombay, VSD Corp. Pvt. Ltd.)
-//
-// Design Name:        8:3 Mux based Encoder
+// Design Name:        T Flipflop
 // Designer:           Swagatika Meher
-// Module Name:        Swagatika_8to3_mux_based_priorityencoder
+// Module Name:        swagatika_T_FF
 //
 ///////////////////////////////////////////////////////////////////////
 
-// Enter the code here
 
-module Swagatika_8to3_mux_based_priorityencoder(in,O);
-  
-  input [7:0]in;
-  output [2:0]O;
-  
-assign O = (in[7] ==1'b1 ) ? 3'b111:
-               (in[6] ==1'b1 ) ? 3'b110:
-               (in[5] ==1'b1 ) ? 3'b101:
-               (in[4] ==1'b1) ? 3'b100:
-               (in[3] ==1'b1) ? 3'b011:
-               (in[2] ==1'b1) ? 3'b010:
-               (in[1] ==1'b1) ? 3'b001:
-               (in[0] ==1'b1) ? 3'b000: 3'bxxx;
-
+module swagatika_T_FF(t,clk,clr,Q,Qbar);
+	input clk,clr,t;
+	output reg Q;
+	output Qbar;
+	
+	always @(posedge clk) 
+	begin
+		if (!clr)
+			Q<=0;
+		else 
+			if (t)
+				 Q<=~Q;
+			else
+                                 Q<=Q;
+	end
+                           assign Qbar = ~Q;
 endmodule
 ```
 # Makerchip
@@ -116,41 +114,44 @@ endmodule
 
 //Your Verilog/System Verilog Code Starts Here:
 ////////////////////////////////////////////////////////////////////////
-// Mixed Signal Design Hackathon
 //
-// (Organised by FOSSEE IIT Bombay, VSD Corp. Pvt. Ltd.)
-//
-// Design Name:        8:3 Mux based Encoder
+// Design Name:        T Flipflop
 // Designer:           Swagatika Meher
-// Module Name:        Swagatika_8to3_mux_based_priorityencoder
+// Module Name:        swagatika_T_FF
 //
 ///////////////////////////////////////////////////////////////////////
 
-// Enter the code here
 
-module Swagatika_8to3_mux_based_priorityencoder(in,O);
-  
-  input [7:0]in;
-  output [2:0]O;
-  
-assign O = (in[7] ==1'b1 ) ? 3'b111:
-               (in[6] ==1'b1 ) ? 3'b110:
-               (in[5] ==1'b1 ) ? 3'b101:
-               (in[4] ==1'b1) ? 3'b100:
-               (in[3] ==1'b1) ? 3'b011:
-               (in[2] ==1'b1) ? 3'b010:
-               (in[1] ==1'b1) ? 3'b001:
-               (in[0] ==1'b1) ? 3'b000: 3'bxxx;
-
+module swagatika_T_FF(t,clk,clr,Q,Qbar);
+	input clk,clr,t;
+	output reg Q;
+	output Qbar;
+	
+	always @(posedge clk) 
+	begin
+		if (!clr)
+			Q<=0;
+		else 
+			if (t)
+				 Q<=~Q;
+			else
+                                 Q<=Q;
+	end
+                           assign Qbar = ~Q;
 endmodule
+
+
 
 //Top Module Code Starts here:
 	module top(input logic clk, input logic reset, input logic [31:0] cyc_cnt, output logic passed, output logic failed);
-		logic  [7:0] in;//input
-		logic  [2:0] O;//output
+		logic  clr;//input
+		logic  t;//input
+		logic  Q;//output
+		logic  Qbar;//output
 //The $random() can be replaced if user wants to assign values
-		assign in = $random();
-		Swagatika_8to3_mux_based_priorityencoder Swagatika_8to3_mux_based_priorityencoder(.in(in), .O(O));
+		assign clr = $random();
+		assign t = $random();
+		swagatika_T_FF swagatika_T_FF(.clk(clk), .clr(clr), .t(t), .Q(Q), .Qbar(Qbar));
 	
 \TLV
 //Add \TLV here if desired                                     
@@ -158,106 +159,145 @@ endmodule
 endmodule
 ```
 # Makerchip Plots
-The waveforms for different inputs given to 8:3 priority encoder & their respective outputs :
+The functioning of the positive edge-triggered T flipflop with synchronous clear for input T = 1 is shown in this plot.
 
-![Encoder](https://user-images.githubusercontent.com/114692581/194708805-069f7fb7-5d40-4016-b859-a8d43d690b1e.PNG)
+![T_ff](https://user-images.githubusercontent.com/114692581/207893123-bdb8e3b4-d840-438f-a362-de9c65b4667c.PNG)
 
-# Generating Model for 8 to 3 Priority Encoder using NgVeri
-To encode the thermometric code into binary code, digital logic of 8:3 priority encoder is created using verilog code in NgVeri simulator.
+# Generating Model for T Flipflop  using NgVeri
+Digital logic of T Flipflop is created using verilog code in NgVeri simulator.
 
-![Model](https://user-images.githubusercontent.com/114692581/194709369-957c0425-831e-41aa-85d8-a2fac267025d.PNG)
+![model](https://user-images.githubusercontent.com/114692581/207894492-b824c92b-bbc2-4375-8843-0651bb775bae.PNG)
 
 # Circuit Diagram in eSim
 The following is the schematic in eSim simulator.
 
-![Sch1](https://user-images.githubusercontent.com/114692581/194710243-f9ccb0e7-a9d9-4303-b07d-b450b23c94b2.PNG)
+**Power Supply**
 
+![power_supply](https://user-images.githubusercontent.com/114692581/207895724-ea63b928-0259-4859-8cc9-46804a8e25be.png)
 
-![sch2](https://user-images.githubusercontent.com/114692581/194710247-ea507ad5-56b7-41dd-9f15-1f89c0df53f1.PNG)
+**Control Input [M]**
 
+![control_inputM](https://user-images.githubusercontent.com/114692581/207896384-bb9d5f61-21f1-4f9a-832b-935d664d2e44.png)
 
-![sch3](https://user-images.githubusercontent.com/114692581/194710263-48b2036b-cc2a-4b53-a2b5-b417f06ca597.PNG)
+**Astable Multivibrator**
 
+![astable_multibrator](https://user-images.githubusercontent.com/114692581/207896774-f961b575-766d-4a38-86f7-418cd5f956b7.png)
 
-![sch4](https://user-images.githubusercontent.com/114692581/194710283-9b59d4a4-5315-4509-b5e3-8f672a98c612.PNG)
+**Input of T-FF 3**
 
-As we can see, 7 TIQ comparators are connected in parallel manner. From all the TIQ components, first inverters are acting as comparators and second inverters are acting as gain boosters. In the next stage, the outputs of TIQ comparators are passing through ADC bridge to convert the analog voltages to digital form that is, 0s and 1s. Then, the 8:3 priority encoder is used to generate 3 bit binary output for the input with highest priority.
+![IpT3](https://user-images.githubusercontent.com/114692581/207897093-f0903436-6807-451a-ba0d-c97ada67f79f.png)
+
+**Input of T-FF 2**
+
+![IpT2](https://user-images.githubusercontent.com/114692581/207897256-370da7b2-e2a7-4a48-ba5b-2490885df833.png)
+
+**Schematic Diagram of MOD-8 UP/DOWN Synchronous counter using T-flipflops**
+
+![cktdia](https://user-images.githubusercontent.com/114692581/207897548-f46b9e36-c31f-413f-9fa8-2fb261fd0509.png)
+
+**Mixed signal MOD-8 UP/DOWN Synchronous counter using 130nm CMOS technology**
+
+![full circuit](https://user-images.githubusercontent.com/114692581/207898083-306d25b3-26f4-4466-8ab8-1081c7ed1676.png)
+
 # Netlists
 ```
-* e:\esim\adc\adc.cir
+* e:\esim\mod8_synchronouscounter\mod8_synchronouscounter.cir
 
 .include "C:\FOSSEE\eSim\library\sky130_fd_pr\models\sky130_fd_pr__model__r+c.model.spice"
+.include "C:\FOSSEE\eSim\library\sky130_fd_pr\models\sky130_fd_pr__model__linear.model.spice"
+.lib "C:\FOSSEE\eSim\library\sky130_fd_pr\models\sky130.lib.spice" tt
+.include "C:\FOSSEE\eSim\library\sky130_fd_pr\models\sky130_fd_pr__model__diode_pd2nw_11v0.model.spice"
+.include "C:\FOSSEE\eSim\library\sky130_fd_pr\models\sky130_fd_pr__model__pnp.model.spice"
 .include "C:\FOSSEE\eSim\library\sky130_fd_pr\models\sky130_fd_pr__model__inductors.model.spice"
 .include "C:\FOSSEE\eSim\library\sky130_fd_pr\models\sky130_fd_pr__model__diode_pw2nd_11v0.model.spice"
-.include "C:\FOSSEE\eSim\library\sky130_fd_pr\models\sky130_fd_pr__model__pnp.model.spice"
-.include "C:\FOSSEE\eSim\library\sky130_fd_pr\models\sky130_fd_pr__model__diode_pd2nw_11v0.model.spice"
-.lib "C:\FOSSEE\eSim\library\sky130_fd_pr\models\sky130.lib.spice" tt
-.include "C:\FOSSEE\eSim\library\sky130_fd_pr\models\sky130_fd_pr__model__linear.model.spice"
-xsc1 net-_sc1-pad1_ vin vref vref sky130_fd_pr__pfet_01v8 M=1 W=0.5 L=10
-xsc15 tiq1 net-_sc1-pad1_ vref vref sky130_fd_pr__pfet_01v8 
-xsc2 net-_sc1-pad1_ vin gnd gnd sky130_fd_pr__nfet_01v8 W=20 L=0.3
-xsc3 net-_sc17-pad2_ vin vref vref sky130_fd_pr__pfet_01v8 W=0.5 L=1
-xsc17 tiq2 net-_sc17-pad2_ vref vref sky130_fd_pr__pfet_01v8 
-xsc4 net-_sc17-pad2_ vin gnd gnd sky130_fd_pr__nfet_01v8 W=12 L=0.3
-xsc18 tiq2 net-_sc17-pad2_ gnd gnd sky130_fd_pr__nfet_01v8 
-xsc5 net-_sc19-pad2_ vin vref vref sky130_fd_pr__pfet_01v8 W=0.42 L=0.18
-xsc19 tiq3 net-_sc19-pad2_ vref vref sky130_fd_pr__pfet_01v8 
-xsc7 net-_sc21-pad2_ vin vref vref sky130_fd_pr__pfet_01v8 W=2 L=0.18
-xsc21 tiq4 net-_sc21-pad2_ vref vref sky130_fd_pr__pfet_01v8 
-xsc6 net-_sc19-pad2_ vin gnd gnd sky130_fd_pr__nfet_01v8 W=1 L=0.18
-xsc20 tiq3 net-_sc19-pad2_ gnd gnd sky130_fd_pr__nfet_01v8 
-xsc8 net-_sc21-pad2_ vin gnd gnd sky130_fd_pr__nfet_01v8 W=0.42 L=0.18
-xsc22 tiq4 net-_sc21-pad2_ gnd gnd sky130_fd_pr__nfet_01v8 
-xsc9 net-_sc10-pad1_ vin vref vref sky130_fd_pr__pfet_01v8 W=3 L=0.18
-xsc23 tiq5 net-_sc10-pad1_ vref vref sky130_fd_pr__pfet_01v8 
-xsc10 net-_sc10-pad1_ vin gnd gnd sky130_fd_pr__nfet_01v8 W=0.42 L=1
-xsc24 tiq5 net-_sc10-pad1_ gnd gnd sky130_fd_pr__nfet_01v8 
-xsc11 net-_sc11-pad1_ vin vref vref sky130_fd_pr__pfet_01v8 W=15 L=0.18
-xsc25 tiq6 net-_sc11-pad1_ vref vref sky130_fd_pr__pfet_01v8 
-xsc12 net-_sc11-pad1_ vin gnd gnd sky130_fd_pr__nfet_01v8 W=0.42 L=10
-xsc26 tiq6 net-_sc11-pad1_ gnd gnd sky130_fd_pr__nfet_01v8 
-xsc13 net-_sc13-pad1_ vin vref vref sky130_fd_pr__pfet_01v8 W=30 L=0.18
-xsc27 tiq7 net-_sc13-pad1_ vref vref sky130_fd_pr__pfet_01v8 
-xsc14 net-_sc13-pad1_ vin gnd gnd sky130_fd_pr__nfet_01v8 W=0.42 L=20
-xsc28 tiq7 net-_sc13-pad1_ gnd gnd sky130_fd_pr__nfet_01v8 
-xsc16 tiq1 net-_sc1-pad1_ gnd gnd sky130_fd_pr__nfet_01v8 
-vin1  vin gnd sine(0 6 20M 1n 0)
-v2 vref gnd  dc 6
-* u2  vref plot_v1
+v1 t_ff_1 gnd  dc 1.8
+xsc1 net-_sc1-pad1_ net-_sc1-pad2_ t_ff_1 t_ff_1 sky130_fd_pr__pfet_01v8 
+xsc3 net-_sc3-pad1_ net-_sc1-pad1_ t_ff_1 t_ff_1 sky130_fd_pr__pfet_01v8 
+xsc6 clk net-_sc3-pad1_ t_ff_1 t_ff_1 sky130_fd_pr__pfet_01v8 
+xsc2 net-_sc1-pad1_ net-_sc1-pad2_ gnd gnd sky130_fd_pr__nfet_01v8 
+xsc4 net-_sc3-pad1_ net-_sc1-pad1_ gnd gnd sky130_fd_pr__nfet_01v8 
+xsc7 clk net-_sc3-pad1_ gnd gnd sky130_fd_pr__nfet_01v8 
+xsc5 net-_sc3-pad1_ net-_sc1-pad2_ sky130_fd_pr__cap_mim_m3_1 W=1000 L=6000 MF=5000
+xsc8 net-_sc1-pad2_ clk supply_voltage sky130_fd_pr__res_generic_nd W=1 L=900
+v2 supply_voltage gnd  dc 3.5
 * s c m o d e
-* u7  net-_u6-pad9_ net-_u6-pad10_ net-_u6-pad11_ y2 y1 y0 dac_bridge_3
-* u8  y2 plot_v1
-* u9  y1 plot_v1
-* u10  y0 plot_v1
-* u3  tiq1 tiq2 tiq3 tiq4 tiq5 tiq6 tiq7 gnd net-_u3-pad9_ net-_u3-pad10_ net-_u3-pad11_ net-_u3-pad12_ net-_u3-pad13_ net-_u3-pad14_ net-_u3-pad15_ net-_u3-pad16_ adc_bridge_8
-* u5  tiq1 plot_v1
-* u12  tiq2 plot_v1
-* u15  tiq3 plot_v1
-* u4  tiq4 plot_v1
-* u11  tiq5 plot_v1
-* u13  tiq6 plot_v1
-* u14  tiq7 plot_v1
-* u1  vin plot_v1
-* u6  net-_u3-pad9_ net-_u3-pad10_ net-_u3-pad11_ net-_u3-pad12_ net-_u3-pad13_ net-_u3-pad14_ net-_u3-pad15_ net-_u3-pad16_ net-_u6-pad9_ net-_u6-pad10_ net-_u6-pad11_ swagatika_8to3_mux_based_priorityencoder
-a1 [net-_u6-pad9_ net-_u6-pad10_ net-_u6-pad11_ ] [y2 y1 y0 ] u7
-a2 [tiq1 tiq2 tiq3 tiq4 tiq5 tiq6 tiq7 gnd ] [net-_u3-pad9_ net-_u3-pad10_ net-_u3-pad11_ net-_u3-pad12_ net-_u3-pad13_ net-_u3-pad14_ net-_u3-pad15_ net-_u3-pad16_ ] u3
-a3 [net-_u3-pad9_ net-_u3-pad10_ net-_u3-pad11_ net-_u3-pad12_ net-_u3-pad13_ net-_u3-pad14_ net-_u3-pad15_ net-_u3-pad16_ ] [net-_u6-pad9_ net-_u6-pad10_ net-_u6-pad11_ ] u6
+xsc9 mbar control_input__m_ t_ff_1 t_ff_1 sky130_fd_pr__pfet_01v8 
+xsc10 mbar control_input__m_ gnd gnd sky130_fd_pr__nfet_01v8 
+v3  control_input__m_ gnd pulse(3.5 0 0 0.001m 0.001m 50m 100m)
+* u2  q1bar q2bar q1_bar q2_bar dac_bridge_2
+* u1  q1 q2 q_1 q_2 dac_bridge_2
+xsc11 net-_sc11-pad1_ mbar t_ff_1 t_ff_1 sky130_fd_pr__pfet_01v8 
+xsc16 net-_sc11-pad1_ q_2 t_ff_1 t_ff_1 sky130_fd_pr__pfet_01v8 
+xsc21 net-_sc11-pad1_ q_1 t_ff_1 t_ff_1 sky130_fd_pr__pfet_01v8 
+xsc12 net-_sc12-pad1_ control_input__m_ net-_sc11-pad1_ net-_sc11-pad1_ sky130_fd_pr__pfet_01v8 
+xsc17 net-_sc12-pad1_ q2_bar net-_sc11-pad1_ net-_sc11-pad1_ sky130_fd_pr__pfet_01v8 
+xsc22 net-_sc12-pad1_ q1_bar net-_sc11-pad1_ net-_sc11-pad1_ sky130_fd_pr__pfet_01v8 
+xsc13 net-_sc12-pad1_ mbar net-_sc13-pad3_ net-_sc13-pad3_ sky130_fd_pr__nfet_01v8 
+xsc14 net-_sc13-pad3_ q_2 net-_sc14-pad3_ net-_sc14-pad3_ sky130_fd_pr__nfet_01v8 
+xsc15 net-_sc14-pad3_ q_1 gnd gnd sky130_fd_pr__nfet_01v8 
+xsc18 net-_sc12-pad1_ control_input__m_ net-_sc18-pad3_ net-_sc18-pad3_ sky130_fd_pr__nfet_01v8 
+xsc19 net-_sc18-pad3_ q2_bar net-_sc19-pad3_ net-_sc19-pad3_ sky130_fd_pr__nfet_01v8 
+xsc20 net-_sc19-pad3_ q1_bar gnd gnd sky130_fd_pr__nfet_01v8 
+xsc23 t_ff_3 net-_sc12-pad1_ t_ff_1 t_ff_1 sky130_fd_pr__pfet_01v8 
+xsc24 t_ff_3 net-_sc12-pad1_ gnd gnd sky130_fd_pr__nfet_01v8 
+* u3  t_ff_3 plot_v1
+xsc25 net-_sc25-pad1_ q_1 t_ff_1 t_ff_1 sky130_fd_pr__pfet_01v8 
+xsc26 t_ff_2 mbar net-_sc25-pad1_ net-_sc25-pad1_ sky130_fd_pr__pfet_01v8 
+xsc29 net-_sc29-pad1_ q1_bar t_ff_1 t_ff_1 sky130_fd_pr__pfet_01v8 
+xsc30 t_ff_2 control_input__m_ net-_sc29-pad1_ net-_sc29-pad1_ sky130_fd_pr__pfet_01v8 
+xsc27 t_ff_2 mbar net-_sc27-pad3_ net-_sc27-pad3_ sky130_fd_pr__nfet_01v8 
+xsc28 net-_sc27-pad3_ q1_bar gnd gnd sky130_fd_pr__nfet_01v8 
+xsc31 t_ff_2 control_input__m_ net-_sc31-pad3_ net-_sc31-pad3_ sky130_fd_pr__nfet_01v8 
+xsc32 net-_sc31-pad3_ q_1 gnd gnd sky130_fd_pr__nfet_01v8 
+* u4  t_ff_2 plot_v1
+* u7  t_ff_1 t_ff_2 t_ff_3 clk clear ff_1_ta ff_2_tb ff_3_tc ff_clk ff_clr adc_bridge_5
+* u5  t_ff_1 plot_v1
+v4  clear gnd pulse(0 3.5 0 0.001m 0.001m 30m 50m)
+* u6  clear plot_v1
+* u8  ff_clk clock dac_bridge_1
+* u9  clock plot_v1
+* u11  ff_clk ff_clr ff_1_ta q1 q1bar swagatika_t_ff
+* u16  ff_clk ff_clr ff_2_tb q2 q2bar swagatika_t_ff
+* u17  ff_clk ff_clr ff_3_tc q3 ? swagatika_t_ff
+* u12  q3 q2 q1 tq3 tq2 tq1 dac_bridge_3
+* u13  tq3 plot_v1
+* u14  tq2 plot_v1
+* u15  tq1 plot_v1
+* u10  control_input__m_ plot_v1
+xsc33 t_ff_3 gnd sky130_fd_pr__cap_mim_m3_1 W=100 L=500 MF=5000
+xsc34 t_ff_2 gnd sky130_fd_pr__cap_mim_m3_1 W=100 L=100 MF=5000
+a1 [q1bar q2bar ] [q1_bar q2_bar ] u2
+a2 [q1 q2 ] [q_1 q_2 ] u1
+a3 [t_ff_1 t_ff_2 t_ff_3 clk clear ] [ff_1_ta ff_2_tb ff_3_tc ff_clk ff_clr ] u7
+a4 [ff_clk ] [clock ] u8
+a5 [ff_clk ] [ff_clr ] [ff_1_ta ] [q1 ] [q1bar ] u11
+a6 [ff_clk ] [ff_clr ] [ff_2_tb ] [q2 ] [q2bar ] u16
+a7 [ff_clk ] [ff_clr ] [ff_3_tc ] [q3 ] [? ] u17
+a8 [q3 q2 q1 ] [tq3 tq2 tq1 ] u12
+* Schematic Name:                             dac_bridge_2, NgSpice Name: dac_bridge
+.model u2 dac_bridge(out_low=0.0 out_high=5.0 out_undef=0.5 input_load=1.0e-12 t_rise=1.0e-9 t_fall=1.0e-9 ) 
+* Schematic Name:                             dac_bridge_2, NgSpice Name: dac_bridge
+.model u1 dac_bridge(out_low=0.0 out_high=5.0 out_undef=0.5 input_load=1.0e-12 t_rise=1.0e-9 t_fall=1.0e-9 ) 
+* Schematic Name:                             adc_bridge_5, NgSpice Name: adc_bridge
+.model u7 adc_bridge(in_low=1.0 in_high=2.0 rise_delay=1.0e-9 fall_delay=1.0e-9 ) 
+* Schematic Name:                             dac_bridge_1, NgSpice Name: dac_bridge
+.model u8 dac_bridge(out_low=0.0 out_high=5.0 out_undef=0.5 input_load=1.0e-12 t_rise=1.0e-9 t_fall=1.0e-9 ) 
+* Schematic Name:                             swagatika_t_ff, NgSpice Name: swagatika_t_ff
+.model u11 swagatika_t_ff(rise_delay=1.0e-9 fall_delay=1.0e-9 input_load=1.0e-12 instance_id=1 ) 
+* Schematic Name:                             swagatika_t_ff, NgSpice Name: swagatika_t_ff
+.model u16 swagatika_t_ff(rise_delay=1.0e-9 fall_delay=1.0e-9 input_load=1.0e-12 instance_id=1 ) 
+* Schematic Name:                             swagatika_t_ff, NgSpice Name: swagatika_t_ff
+.model u17 swagatika_t_ff(rise_delay=1.0e-9 fall_delay=1.0e-9 input_load=1.0e-12 instance_id=1 ) 
 * Schematic Name:                             dac_bridge_3, NgSpice Name: dac_bridge
-.model u7 dac_bridge(out_low=0 out_high=5 out_undef=5 input_load=1p t_rise=1n t_fall=1n ) 
-* Schematic Name:                             adc_bridge_8, NgSpice Name: adc_bridge
-.model u3 adc_bridge(in_low=1.0 in_high=2.0 rise_delay=1.0e-9 fall_delay=1.0e-9 ) 
-* Schematic Name:                             swagatika_8to3_mux_based_priorityencoder, NgSpice Name: swagatika_8to3_mux_based_priorityencoder
-.model u6 swagatika_8to3_mux_based_priorityencoder(rise_delay=1.0e-9 fall_delay=1.0e-9 input_load=1.0e-12 instance_id=1 ) 
-.tran 0.001e-00 14e-00 0e-00
+.model u12 dac_bridge(out_low=0.0 out_high=5.0 out_undef=0.5 input_load=1.0e-12 t_rise=1.0e-9 t_fall=1.0e-9 ) 
+.tran 0.01e-03 100e-03 0e-03
 
 * Control Statements 
 .control
 run
 print allv > plot_data_v.txt
 print alli > plot_data_i.txt
-plot v(vin) v(tiq1) v(tiq2) v(tiq3) v(tiq4) v(tiq5) v(tiq6) v(tiq7)    
-plot v(vref)
-plot v(y2)+16 v(y1)+8 v(y0)
+plot v(clock)+54 v(clear)+48 v(control_input__m_)+40 v(t_ff_3)+34 v(t_ff_2)+29 v(t_ff_1)+24 v(tq3)+17 v(tq2)+8 v(tq1)
 .endc
 .end
 ```
