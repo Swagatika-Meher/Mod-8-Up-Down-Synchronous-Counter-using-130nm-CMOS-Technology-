@@ -163,7 +163,7 @@ The functioning of the positive edge-triggered T flipflop with synchronous clear
 
 ![T_ff](https://user-images.githubusercontent.com/114692581/207893123-bdb8e3b4-d840-438f-a362-de9c65b4667c.PNG)
 
-# Generating Model for T Flipflop  using NgVeri
+# Generating Model for T Flipflop using NgVeri
 Digital logic of T Flipflop is created using verilog code in NgVeri simulator.
 
 ![model](https://user-images.githubusercontent.com/114692581/207894492-b824c92b-bbc2-4375-8843-0651bb775bae.PNG)
@@ -302,21 +302,48 @@ plot v(clock)+54 v(clear)+48 v(control_input__m_)+40 v(t_ff_3)+34 v(t_ff_2)+29 v
 .end
 ```
 # NgSpice Plots
-Here, sine wave is taken as input voltage with amplitude 6V and frequency 20MHz. Reference voltage is also taken as 6V. Reference voltages of each comparator are varying with respect to width of PMOS. We know that, the output is high if reference voltage is less than input voltage and the output is low, if reference voltage is greater than input voltage. We can see in the output plots, from 0sec to 1sec the output bits are low and after that all the digital output bits are high. 
+**Clock Pulse** 
 
-![p1](https://user-images.githubusercontent.com/114692581/194712499-ae960d9c-3d2c-4a51-81c4-05b40ad427f4.PNG)
+![clock_plot](https://user-images.githubusercontent.com/114692581/207904348-8262ea38-c2cd-47e7-90fc-f9a8a9a3748d.PNG)
+
+**Clear Signal**
+
+![clear_plot](https://user-images.githubusercontent.com/114692581/207904573-11d56c7d-c5b2-4330-ab27-2cfbf7ce3652.PNG)
+
+**Control Input Signal [M]**
+
+![control_input_PLOT](https://user-images.githubusercontent.com/114692581/207904796-f160170f-96b0-464a-bae6-9a1fa2087819.PNG)
+
+**Input Signal of T-FF 3**
+
+![IP_FF3_plot](https://user-images.githubusercontent.com/114692581/207905224-b7eade72-6907-41a5-80fd-1737c4a18ec4.PNG)
+
+**Input Signal of T-FF 2**
+
+![IP_ff2_PLOT](https://user-images.githubusercontent.com/114692581/207905355-0e8bfa43-48ab-4878-8dce-0d5cc70afe8f.PNG)
+
+**Input Signal of T-FF 1**
+
+![IP_FF1_PLOT](https://user-images.githubusercontent.com/114692581/207905575-083149da-564d-45a8-9835-2e0333925970.PNG)
+
+**Output of T-FF 3 [Q3]**
+
+![OP_Q3](https://user-images.githubusercontent.com/114692581/207906079-d28876c5-e7cc-4985-9251-bd9e7bbe6400.PNG)
+
+**Output of T-FF 2 [Q2]**
+
+![OP_Q2](https://user-images.githubusercontent.com/114692581/207906202-3c1f1733-a9df-4d3d-8cb4-2f5636717d36.PNG)
+
+**Output of T-FF 1 [Q1]**
+
+![OP_Q1](https://user-images.githubusercontent.com/114692581/207906350-e32a5f82-6f15-4e0e-842e-4b73a93a7be9.PNG)
+
+**Combined Outputs of MOD 8 Up/Down Synchronous Counter using 130nm CMOS Technology**
+
+![full_waveform](https://user-images.githubusercontent.com/114692581/207906704-502bb8a5-5067-4b94-a2e9-caa467f4b307.PNG)
 
 
-![P2](https://user-images.githubusercontent.com/114692581/194712517-1fbcba98-826f-4507-b0c4-7524cbff8682.PNG)
 
-
-![p3](https://user-images.githubusercontent.com/114692581/194717301-bfd01c5f-b994-498e-b36e-8a7af0b3d77e.PNG)
-
-
-![r1](https://user-images.githubusercontent.com/114692581/194745729-84e92afc-8948-41e0-992d-cc2a848f19e2.PNG)
-
-
-![r2](https://user-images.githubusercontent.com/114692581/194745740-9986585d-326e-40d4-8d79-04405b505ee2.PNG)
 
 # Steps to run and generate NgVeri Model
 1. Open eSim
