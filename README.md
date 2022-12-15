@@ -2,9 +2,7 @@
 # Table of contents
 * [Abstract](#Abstract)
 * [Reference Circuit Diagram](#Reference-Circuit-Diagram)
-* [Reference Waveform](#Reference-Waveform)
 * [Circuit Details](#Circuit-Details)
-* [State Transition Diagram](#State-Transition-Diagram)
 * [Truth Table](#Truth-Table)
 * [Designing Steps](#Designing-Steps)
 * [Software Used](#Software-Used)
@@ -30,25 +28,35 @@ Given attached is the block diagram for Mod-8 Up/Down Synchronous Counter.
 
 ![ref_ckt_d](https://user-images.githubusercontent.com/114692581/207661098-4b1f53f0-d88f-43fd-9d25-5462446bef35.png)
                                                        
-Fig:1 Mod-8 Up/Down Synchronous Counter
-# Reference Waveform
-Given attached is the timing diagram for Mod-8 Up/Down Synchronous Counter.
-
-
+Fig:1 Block diagram of Mod-8 Up/Down Synchronous Counter
 # Circuit Details
-In TIQ technique, it uses two cascaded CMOS inverters as a comparator. While the second inverter serves as a gain booster, the first inverter internally creates reference voltage (Vref). As we adjust the size of CMOS, the cascading inverters produce various switching/reference voltages internally which serves as reference voltages. The purpose of TIQ comparator is to transform an input voltage (Vin) toward logic '1' or '0' by estimating a reference voltage (Vref) with the Vin. If Vin is greater than Vref, the comparator output is '1', otherwise '0'. This occurs when transistor width is altered while keeping the transistor length constant. The gain boosters create sharper thresholds for comparator outputs and offer a complete digital output voltage swing. The comparator outputs the thermometer code are turned to a binary code using 8:3 priority encoder. In this design, sine wave is given as input voltage with 20MHz frequency.
-# TIQ Comparator
-Two inverters are linked in series on the TIQ Comparator for comparing and balancing. The threshold voltage of the inverter circuits can be modified to provide different reference voltages by adjusting the width of PMOS and NMOS transistors. In analog section of 3-bit ADC, $\[{2^n} - 1\]$ comparators that is, 7 TIQ comparators are connected parallelly using CMOS inverters. Where, n is the number of output binary bits.
- 
-![images](https://user-images.githubusercontent.com/114692581/194702441-2e6e4ff6-7534-437c-b5da-8171514baa5d.png)
+In 3 bit or mod-8 Up or Down counting, 3 Flip Flops are required, which can count up to $\{2^3} - 1 = 7\$ states. Here, the counter's mode control input determines which sequence will be generated. In this scenario, the counter's mode control input determines whether it will execute up counting or down counting. Such a counter must be designed similarly to a synchronous counter, but it also needs additional combinational logic for mode control input.
+Here 3 T flipflops are designed using Verilog code. For the control input (M), let’s assume M=0 for UP counting and M=1 for DOWN counting. Here, Fig.2 shows the state transition diagram of 3-bit up/down synchronous counter.
 
-Fig:2 TIQ Comparator
+![IN1](https://user-images.githubusercontent.com/114692581/207883613-bc32d46f-c370-43a8-aa86-0ee315675689.png)
+
+Fig:2 State Transition diagram of Mod-8 Up/Down Synchronous Counter
+
+For the generation of clock pulse, the astable multivibrator is constructed by cascading three inverters, and the clock pulse signal is produced using a resistor and capacitor. The inverters serve as a buffer, and an important factor in switching the inputs and outputs of the inverter is the direction in which the capacitor is charged and discharged.
+When the positive edge triggered clock pulse is applied and input T of the flip-flops, the present states of the counting sequence, as well as the next states are represented by the circuit excitation table. Using the Flip Flops excitation table, we can determine the input values for 3 Flip Flops by observing the change from one state to the subsequent state. In table 1, the excitation table is created using the necessary counting sequence.
 # Truth Table
+Table 1: Excitation table for each T-Flipflop of Mod-8 Up/Down Synchronous Counter 
 
-![Capture](https://user-images.githubusercontent.com/114692581/194705103-fb21f514-ca59-4f26-9e4e-8a998e3640c9.PNG)
+![TT](https://user-images.githubusercontent.com/114692581/207885375-bb44a50a-046f-4e5b-8d87-49da028e6716.PNG)
+
+The circuit excitation table is reduced using the K-map to obtain the Boolean functions for the input to the flipflops. To create circuit schematics, the simplified expression for Flip Flops is adopted. In this case, all connections are formed using reduced expressions for flip flops. 
+The Boolean functions for input of flipflops are,
+
+For 
+
+$\{T_3} = M'{Q_2}{Q_1} + M{Q_2}^\prime {Q_1}^\prime \$
+
+$\{T_2} = M'{Q_1} + M{Q_1}^\prime \$
+
+$\{T_1} = 1\$
 
 # Designing Steps
-* Step 1 : Writing Verilog code for an 8:3 mux-based Priority Encoder and simulating it on the Makerchip. The top module of Verilog code should have the same name as the file.
+* Step 1 : Writing Verilog code for a T- flipflop with synchronous positive edge triggered clock pulse and simulating it on the Makerchip. The top module of Verilog code should have the same name as the file.
 * Step 2: Generating models on NgVeri and employing Makerchip to simulate.
 * Step 3 : Schematics creation using Eeschema.
 * Step 4: Making a netlist after running an electrical rule check (ERC) and annotating the schematic.
