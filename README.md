@@ -342,9 +342,35 @@ plot v(clock)+54 v(clear)+48 v(control_input__m_)+40 v(t_ff_3)+34 v(t_ff_2)+29 v
 
 ![full_waveform](https://user-images.githubusercontent.com/114692581/207906704-502bb8a5-5067-4b94-a2e9-caa467f4b307.PNG)
 
+According to truth table of T-Flipflop, after every rising edge of clock pulse, when T=1, flipflop's output state will toggle.
+Initially, 
+$\{Q_3} = 0,{Q_2} = 0,{Q_1} = 0\$
 
+**Case:1 When M=0, then M'=1**
 
+$\{T_3} = M'{Q_2}{Q_1} + M{Q_2}^\prime {Q_1}^\prime  = {Q_2}{Q_1}\$
 
+$\{T_2} = M'{Q_1} + M{Q_1}^\prime  = {Q_1}\$
+
+$\{T_1} = 1\$
+
+T1 = 1, so for every rising edge, FF1 output state changes.
+When Q1 = 1 and the rising edge of the clock pulse occur, FF 2's output state will switch.
+FF 3's output state will toggle only when $\{Q_2} \cdot {Q_1} = 1\$ and the rising edge of the clock pulse occurs.
+In this manner, state transition occurs after each rising edge, allowing us to achieve the **UP** counting sequence.
+
+**Case:2 When M=1, then M'=0**
+
+$\{T_3} = M'{Q_2}{Q_1} + M{Q_2}^\prime {Q_1}^\prime  = {Q_2}^\prime {Q_1}^\prime \$
+
+$\{T_2} = M'{Q_1} + M{Q_1}^\prime  = {Q_1}^\prime \$
+
+$\{T_1} = 1\$
+
+T1 = 1, so for every rising edge, FF1 output state changes.
+When Q1' = 1 and the rising edge of the clock pulse occur, FF 2's output state will switch.
+FF 3's output state will toggle only when $\{Q_2}^\prime  \cdot {Q_1}^\prime  = 1\$ and the rising edge of the clock pulse occurs.
+In this manner, state transition occurs after each rising edge, allowing us to achieve the **DOWN** counting sequence.
 # Steps to run and generate NgVeri Model
 1. Open eSim
 2. Run NgVeri-Makerchip
