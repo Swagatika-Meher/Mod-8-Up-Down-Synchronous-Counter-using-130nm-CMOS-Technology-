@@ -385,13 +385,10 @@ Swagatika Meher, M.Tech (ECE), Odisha University of Technology and Research, Bhu
 # Acknowledgements
 1. FOSSEE, IIT Bombay  
    [http://iitb.ac.in/](http://iitb.ac.in/), [https://fossee.in/](https://fossee.in/)
-2. Steve Hoover, Founder, Redwood EDA
-3. Kunal Ghosh, Co-founder, VSD Corp. Pvt. Ltd. - [kunalpghosh@gmail.com](kunalpghosh@gmail.com)
-4. Sumanto Kar, eSim Team, FOSSEE, IIT Bombay
-5. VLSI System Design - [https://www.vlsisystemdesign.com/](https://www.vlsisystemdesign.com/)
-6. Spoken Tutorial - [https://spoken-tutorial.org/](https://spoken-tutorial.org/)
-7. Ministry of Electronics & Information Technology (MeitY) Chips to Startup (C2S) - [https://www.c2s.gov.in/](https://www.c2s.gov.in/)
-8. Google - [https://www.google.co.in/](https://www.google.co.in/)
+2. Kunal Ghosh, Co-founder, VSD Corp. Pvt. Ltd. - [kunalpghosh@gmail.com](kunalpghosh@gmail.com)
+3. Sumanto Kar, eSim Team, FOSSEE, IIT Bombay
+4. VLSI System Design - [https://www.vlsisystemdesign.com/](https://www.vlsisystemdesign.com/)
+5. Spoken Tutorial - [https://spoken-tutorial.org/](https://spoken-tutorial.org/)
 # References
 1. Balaji, G. Naveen, et al. "Rapid low power Synchronous circuits using transmission gates." Advances in Natural and Applied Sciences (Annexure II) 10.17 (2016): 287-291. - [https://www.researchgate.net/publication/312195862_Rapid_low_power_Synchronous_circuits_using_transmission_gates](https://www.researchgate.net/publication/312195862_Rapid_low_power_Synchronous_circuits_using_transmission_gates)
 2. Zhang, Tangbiao, and QingSheng Hu. "A high-speed and low-power up/down counter in 0.18-μm CMOS technology." 2012 International Conference on Wireless Communications and Signal Processing (WCSP). IEEE, 2012. - [https://doi.org/10.1109/WCSP.2012.6542792](https://doi.org/10.1109/WCSP.2012.6542792)
